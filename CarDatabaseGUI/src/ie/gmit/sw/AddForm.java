@@ -4,9 +4,14 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.Window;
+
 import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
@@ -16,7 +21,7 @@ import java.awt.event.ActionEvent;
 public class AddForm {
 
 	private JFrame frame;
-	private JTextField textReg;
+	private JTextField textRegYear;
 	private JTextField textMake;
 	private JTextField textModel;
 	private JTextField textColour;
@@ -30,6 +35,7 @@ public class AddForm {
 	private JLabel lblErrorColour;
 	private JLabel lblErrorPrice;
 	private JLabel lblErrorDesc;
+	private JLabel lblMessage;
 	
 	private String make;
 	private String model;
@@ -39,7 +45,13 @@ public class AddForm {
 	private String description;
 	private File picture;
 	
+	private String regYr;
+	private String regCo;
+	private String regNum;
+	
 	boolean validDouble;
+	private JTextField textRegCounty;
+	private JTextField textRegNum;
 
 	/**
 	 * Launch the application.
@@ -68,6 +80,7 @@ public class AddForm {
 	/**
 	 * Initialize the contents of the frame.
 	 */
+	
 	private void initialize() {
 		frame = new JFrame();
 		frame.getContentPane().setBackground(Color.RED);
@@ -94,10 +107,10 @@ public class AddForm {
 		lblRegister.setBounds(77, 97, 56, 16);
 		frame.getContentPane().add(lblRegister);
 		
-		textReg = new JTextField();
-		textReg.setColumns(10);
-		textReg.setBounds(175, 94, 116, 22);
-		frame.getContentPane().add(textReg);
+		textRegYear = new JTextField();
+		textRegYear.setColumns(10);
+		textRegYear.setBounds(175, 94, 30, 22);
+		frame.getContentPane().add(textRegYear);
 		
 		textMake = new JTextField();
 		textMake.setColumns(10);
@@ -115,15 +128,14 @@ public class AddForm {
 				//submit button
 				  make=textMake.getText();
 				  model=textModel.getText();
-				  reg=textReg.getText();
+				  regYr=textRegYear.getText();
+				  regCo=textRegCounty.getText().toUpperCase();
+				  regNum=textRegNum.getText();
 				  colour=textColour.getText();
 				  price = textPrice.getText();
-				  //double price2 = Double.parseDouble(price);
-				  //price=textPrice.;
 				  description=textDesc.getText();
 				  
-				addCar(make,model,reg,colour,price,description);
-				
+				  addCar(make,model,reg,colour,price,description);			
 			}
 		});
 		btnSubmit.setBounds(549, 380, 97, 25);
@@ -185,31 +197,58 @@ public class AddForm {
 		lblErrorDesc.setEnabled(true);
 		lblErrorDesc.setBounds(344, 322, 302, 16);
 		frame.getContentPane().add(lblErrorDesc);
-	}
+		
+		textRegCounty = new JTextField();
+		textRegCounty.setColumns(10);
+		textRegCounty.setBounds(217, 94, 30, 22);
+		frame.getContentPane().add(textRegCounty);
+		
+		textRegNum = new JTextField();
+		textRegNum.setColumns(10);
+		textRegNum.setBounds(259, 94, 30, 22);
+		frame.getContentPane().add(textRegNum);
+		
+		lblMessage = new JLabel("");
+		lblMessage.setBounds(77, 384, 302, 16);
+		frame.getContentPane().add(lblMessage);
+	}//end Initialise
 
 	public void open() {
-		frame.setVisible(true);
-		
+		frame.setVisible(true);	
 	}
 	
 	private void addCar(String make,String model,String reg,String colour,String price,String description){
-		//System.out.println(this.make +" "+this.model);
-		boolean valid;
-		valid =validateCar( make, model, reg, colour, price, description);
+		boolean valid=false;
+		boolean validCar;
+		boolean validReg;
 		
+		reg=concatReg(regYr, regCo, regNum);			
+		validReg=ValidateReg(regYr, regCo, regNum);
+		validCar =validateCar( make, model, reg, colour, price, description);
 		
-		
+		if(validCar&validReg)
+			valid=true;
+				
 		if (valid == true){
 			//System.out.println(valid);
 			btnSubmit.setEnabled(false);
 			double Price2 = Double.parseDouble(price);
 			//add to database
-			//Car c =new Car(make, model, reg, colour, Price2, description);
-			//return message if successful
-			//close window
+			Car c =new Car(make, model, reg, colour, Price2, description);
+			boolean success=c.addToDB(make, model, reg, colour, price, description);
+			if (success){
+				lblMessage.setText("Car Added Sucessful");
+				JOptionPane.showMessageDialog(frame,"Car Added Sucessful");				
+			}
+			else{
+				lblMessage.setText("Unable To add car to database");
+				JOptionPane.showMessageDialog(frame,"Unable To add car to database");
+				btnSubmit.setEnabled(true);
+			}
+		
 		}
 		
-	}
+	}//end addCar
 	
 	private boolean validateCar(String make,String model,String reg,String colour,String price,String description){
 		boolean valid=true;
@@ -233,7 +272,7 @@ public class AddForm {
 			
 		}
 		
-		if(reg.length()==0){
+		/*if(reg.length()==0){
 			lblErrorReg.setText("Please enter Registration");
 			valid=false;
 			
@@ -241,7 +280,7 @@ public class AddForm {
 		}
 		else{
 			lblErrorReg.setText("");
-		}
+		}*/
 		
 		if(colour.length()==0){
 			lblErrorColour.setText("Please enter Colour");
@@ -291,11 +330,62 @@ public class AddForm {
 		return validDouble;
 		
 	}
-	
 
+	private boolean ValidCo(String str){
+		boolean validCo=false;
+			//regular expression to make sure String has only (A-Z)
+			if (str.matches("[A-Z]+$")) {
+				// str consists entirely of letters
+				validCo=true;
+				//System.out.println(str);
+			}
 		
-	
+		//System.out.println(validInt);
+		return validCo;
+		
+	}
 
-   
+	private boolean convertToInt(String str){
+		boolean validInt=true;
+		try {
+			int i = Integer.parseInt(str);
+		} catch (NumberFormatException e) {
+			//e.printStackTrace();
+			System.out.println("Error converting");
+			validInt=false;
+		}
+		//System.out.println(validInt);
+		return validInt;
+		
+	}
 	
+	private String concatReg(String yr,String co,String num) {
+		String reg="";
+		reg = yr+"-"+co+"-"+num;
+		//System.out.println(reg);	
+		return reg;
+	}
+	
+	private Boolean ValidateReg(String yr,String co,String num) {
+		Boolean validReg=true;
+		if(yr.length()>3||yr.length()==0||convertToInt(yr)==false){
+			 validReg=false;
+		}
+		
+		if(co.length()>2||co.length()==0||ValidCo(co)==false){
+			 validReg=false;
+		}
+		
+		if(num.length()==0||convertToInt(num)==false){
+			 validReg=false;
+		}
+		
+		if(validReg==false){
+			lblErrorReg.setText("Please enter Vaild Registration");
+		}
+		else{
+			lblErrorReg.setText("");
+		}
+		return validReg;	
+	}
 }

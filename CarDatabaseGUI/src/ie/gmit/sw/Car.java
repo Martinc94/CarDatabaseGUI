@@ -16,6 +16,7 @@ public class Car {
 	private File picture;
 	
 	public Car(int id, String reg, String make, String model, String colour, Double price, String description,File picture) {
+		//Constructor for Existing Car
 		this.id = id;
 		this.reg = reg;
 		this.make = make;
@@ -27,7 +28,8 @@ public class Car {
 		
 	}
 	
-	public Car(String reg, String make, String model, String colour, Double price, String description,File picture) {
+	public Car(String make, String model,String reg, String colour, Double price, String description,File picture) {
+		//Constructor for new Car
 		//for new car 0 gets assigned a new id in database
 		this.id = 0;
 		this.reg = reg;
@@ -42,8 +44,9 @@ public class Car {
 		
 	}
 	
-	public Car(String reg, String make, String model, String colour, Double price, String description) {
+	public Car(String make, String model,String reg, String colour, Double price, String description) {
 		//for new car 0 gets assigned a new id in database
+		////Constructor for new car for no picture
 		this.id = 0;
 		this.reg = reg;
 		this.make = make;
@@ -51,9 +54,6 @@ public class Car {
 		this.colour = colour;
 		this.price = price;
 		this.description = description;
-		//this.picture = picture;
-		
-		//addToDB();
 		
 	}
 
@@ -127,34 +127,35 @@ public class Car {
 				+ ", price=" + price + ", description=" + description + ", picture=" + picture + "]";
 	}
 	
-	private void addToDB(String make,String model,String reg,String colour,String price,String description) {
+	/*public boolean addedToDB(String make,String model,String reg,String colour,String price,String description) {
+		boolean added;
+		added=addToDB(make, model, reg, colour, price, description);
+		return added;
+	}*/
+	
+	public boolean addToDB(String make,String model,String reg,String colour,String price,String description) {
+		boolean added=true;
 		Driver d = new Driver();
 		Connection conn;
 		try {
 			conn = d.getConn();
 			
-			Statement stmt = conn.createStatement();
-		
+			Statement stmt = conn.createStatement();	
 			
 			String sql = "Insert into car (id,reg,make,model,colour,price,description,picture) "+						
-					"values ('"+id+ "','"+ reg+"','"+ "','"+ make+"','"+ model+"','"+ colour+"','"+ price+"','"+ description+"','"+ picture+"'";
-						
+					"values ('"+id+ "','"+ reg+"','"+ make+"','"+ model+"','"+ colour+"','"+ price+"','"+ description+"',"+ picture+")";
 			
-			//stmt.executeUpdate(sql);
-			System.out.println(sql);
+			stmt.executeUpdate(sql);
+			//System.out.println(sql);
 			
-			System.out.println("Insert complete.");
-			
-				
+			//System.out.println("Insert complete.");	
 			
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+			System.out.println("Error Inserting to database Try Again.");
+			added=false;
 		}
-
-	
-	
-	
+		return added;
 
 	}
 
