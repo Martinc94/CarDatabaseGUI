@@ -4,6 +4,8 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JScrollPane;
+
 import java.awt.Color;
 import java.awt.Font;
 import java.sql.ResultSet;
@@ -76,7 +78,9 @@ public class ListForm {
 		table.setBackground(Color.WHITE);
 		table.setBounds(12, 88, 658, 352);
 		frame.getContentPane().add(table);
-		
+		//adds a scroll bar to table
+		new JScrollPane(table, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 	}
 	
 	public void open() {
