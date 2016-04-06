@@ -14,17 +14,21 @@ import java.sql.SQLException;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.JTable;
+import java.awt.GridBagLayout;
+import java.awt.GridBagConstraints;
+import java.awt.Insets;
+import javax.swing.ScrollPaneConstants;
 
 public class ListForm {
 
 	private JFrame frame;
-	private JTable table;
 	private String make;
 	private String model;
 	private String reg;
 	private String colour;
 	private String price;
 	private String description;
+	private JTable resultsTable;
 
 	/**
 	 * Launch the application.
@@ -64,23 +68,42 @@ public class ListForm {
 		frame.getContentPane().setBackground(Color.RED);
 		frame.setBounds(100, 100, 700, 500);
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		frame.getContentPane().setLayout(null);
+		GridBagLayout gridBagLayout = new GridBagLayout();
+		gridBagLayout.columnWidths = new int[]{682, 0};
+		gridBagLayout.rowHeights = new int[]{36, 0, 0, 0};
+		gridBagLayout.columnWeights = new double[]{0.0, Double.MIN_VALUE};
+		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 1.0, Double.MIN_VALUE};
+		frame.getContentPane().setLayout(gridBagLayout);
 		
 		JLabel lblListAllCars = new JLabel("List all Cars");
 		lblListAllCars.setHorizontalAlignment(SwingConstants.CENTER);
 		lblListAllCars.setFont(new Font("Times New Roman", Font.PLAIN, 30));
 		lblListAllCars.setBackground(Color.WHITE);
-		lblListAllCars.setBounds(0, 0, 682, 36);
-		frame.getContentPane().add(lblListAllCars);
+		GridBagConstraints gbc_lblListAllCars = new GridBagConstraints();
+		gbc_lblListAllCars.insets = new Insets(0, 0, 5, 0);
+		gbc_lblListAllCars.anchor = GridBagConstraints.NORTH;
+		gbc_lblListAllCars.fill = GridBagConstraints.HORIZONTAL;
+		gbc_lblListAllCars.gridx = 0;
+		gbc_lblListAllCars.gridy = 0;
+		frame.getContentPane().add(lblListAllCars, gbc_lblListAllCars);
 		
-		table = new JTable();
-		table.setForeground(Color.BLACK);
-		table.setBackground(Color.WHITE);
-		table.setBounds(12, 88, 658, 352);
-		frame.getContentPane().add(table);
 		//adds a scroll bar to table
-		new JScrollPane(table, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-		table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+		GridBagConstraints gbc_scrollPane = new GridBagConstraints();
+		gbc_scrollPane.fill = GridBagConstraints.BOTH;
+		gbc_scrollPane.gridx = 0;
+		gbc_scrollPane.gridy = 2;
+		frame.getContentPane().add(scrollPane, gbc_scrollPane);
+		
+		resultsTable = new JTable();
+		resultsTable.setForeground(Color.BLACK);
+		resultsTable.setBackground(Color.WHITE);
+		scrollPane.setViewportView(resultsTable);
+		
+		
+		//new JScrollPane(table, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		resultsTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 	}
 	
 	public void open() {
@@ -93,7 +116,8 @@ public class ListForm {
 		try {
 				rs = lc.getAllCars();
 			
-				DefaultTableModel m = (DefaultTableModel) table.getModel();
+				DefaultTableModel m = (DefaultTableModel) resultsTable.getModel();
+				rs = lc.getAllCars();
 				m.addColumn("Make");
 		        m.addColumn("Model");
 		        m.addColumn("Reg");
