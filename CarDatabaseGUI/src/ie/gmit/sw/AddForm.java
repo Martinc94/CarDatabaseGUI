@@ -17,6 +17,9 @@ import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.awt.event.ActionEvent;
+import java.awt.GridBagLayout;
+import java.awt.GridBagConstraints;
+import java.awt.Insets;
 
 public class AddForm {
 
@@ -86,41 +89,199 @@ public class AddForm {
 		frame.getContentPane().setBackground(Color.RED);
 		frame.setBounds(100, 100, 700, 500);
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		frame.getContentPane().setLayout(null);
+		GridBagLayout gridBagLayout = new GridBagLayout();
+		gridBagLayout.columnWidths = new int[]{163, 30, 30, 32, 53, 35, 170, 133, 0};
+		gridBagLayout.rowHeights = new int[]{36, 58, 22, 22, 22, 22, 22, 22, 39, 25, 0};
+		gridBagLayout.columnWeights = new double[]{1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, Double.MIN_VALUE};
+		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		frame.getContentPane().setLayout(gridBagLayout);
 		
 		JLabel lblAddACar = new JLabel("Add a Car");
 		lblAddACar.setHorizontalAlignment(SwingConstants.CENTER);
 		lblAddACar.setFont(new Font("Times New Roman", Font.PLAIN, 30));
 		lblAddACar.setBackground(Color.WHITE);
-		lblAddACar.setBounds(0, 0, 682, 36);
-		frame.getContentPane().add(lblAddACar);
-		
-		JLabel lblMake = new JLabel("Make:");
-		lblMake.setBounds(77, 140, 56, 16);
-		frame.getContentPane().add(lblMake);
-		
-		JLabel lblModel = new JLabel("Model:");
-		lblModel.setBounds(77, 183, 56, 16);
-		frame.getContentPane().add(lblModel);
+		GridBagConstraints gbc_lblAddACar = new GridBagConstraints();
+		gbc_lblAddACar.fill = GridBagConstraints.HORIZONTAL;
+		gbc_lblAddACar.insets = new Insets(0, 0, 5, 0);
+		gbc_lblAddACar.gridwidth = 8;
+		gbc_lblAddACar.gridx = 0;
+		gbc_lblAddACar.gridy = 0;
+		frame.getContentPane().add(lblAddACar, gbc_lblAddACar);
 		
 		JLabel lblRegister = new JLabel("Register:");
-		lblRegister.setBounds(77, 97, 56, 16);
-		frame.getContentPane().add(lblRegister);
+		GridBagConstraints gbc_lblRegister = new GridBagConstraints();
+		gbc_lblRegister.insets = new Insets(0, 0, 5, 5);
+		gbc_lblRegister.gridx = 0;
+		gbc_lblRegister.gridy = 2;
+		frame.getContentPane().add(lblRegister, gbc_lblRegister);
 		
 		textRegYear = new JTextField();
 		textRegYear.setColumns(10);
-		textRegYear.setBounds(175, 94, 30, 22);
-		frame.getContentPane().add(textRegYear);
+		GridBagConstraints gbc_textRegYear = new GridBagConstraints();
+		gbc_textRegYear.anchor = GridBagConstraints.NORTH;
+		gbc_textRegYear.fill = GridBagConstraints.HORIZONTAL;
+		gbc_textRegYear.insets = new Insets(0, 0, 5, 5);
+		gbc_textRegYear.gridx = 1;
+		gbc_textRegYear.gridy = 2;
+		frame.getContentPane().add(textRegYear, gbc_textRegYear);
+		
+		textRegCounty = new JTextField();
+		textRegCounty.setColumns(10);
+		GridBagConstraints gbc_textRegCounty = new GridBagConstraints();
+		gbc_textRegCounty.anchor = GridBagConstraints.NORTH;
+		gbc_textRegCounty.fill = GridBagConstraints.HORIZONTAL;
+		gbc_textRegCounty.insets = new Insets(0, 0, 5, 5);
+		gbc_textRegCounty.gridx = 2;
+		gbc_textRegCounty.gridy = 2;
+		frame.getContentPane().add(textRegCounty, gbc_textRegCounty);
+		
+		textRegNum = new JTextField();
+		textRegNum.setColumns(10);
+		GridBagConstraints gbc_textRegNum = new GridBagConstraints();
+		gbc_textRegNum.anchor = GridBagConstraints.NORTH;
+		gbc_textRegNum.fill = GridBagConstraints.HORIZONTAL;
+		gbc_textRegNum.insets = new Insets(0, 0, 5, 5);
+		gbc_textRegNum.gridx = 3;
+		gbc_textRegNum.gridy = 2;
+		frame.getContentPane().add(textRegNum, gbc_textRegNum);
+		
+		lblErrorReg = new JLabel("");
+		lblErrorReg.setEnabled(true);
+		GridBagConstraints gbc_lblErrorReg = new GridBagConstraints();
+		gbc_lblErrorReg.fill = GridBagConstraints.HORIZONTAL;
+		gbc_lblErrorReg.insets = new Insets(0, 0, 5, 0);
+		gbc_lblErrorReg.gridwidth = 3;
+		gbc_lblErrorReg.gridx = 5;
+		gbc_lblErrorReg.gridy = 2;
+		frame.getContentPane().add(lblErrorReg, gbc_lblErrorReg);
+		
+		JLabel lblMake = new JLabel("Make:");
+		GridBagConstraints gbc_lblMake = new GridBagConstraints();
+		gbc_lblMake.insets = new Insets(0, 0, 5, 5);
+		gbc_lblMake.gridx = 0;
+		gbc_lblMake.gridy = 3;
+		frame.getContentPane().add(lblMake, gbc_lblMake);
 		
 		textMake = new JTextField();
 		textMake.setColumns(10);
-		textMake.setBounds(175, 137, 116, 22);
-		frame.getContentPane().add(textMake);
+		GridBagConstraints gbc_textMake = new GridBagConstraints();
+		gbc_textMake.fill = GridBagConstraints.HORIZONTAL;
+		gbc_textMake.insets = new Insets(0, 0, 5, 5);
+		gbc_textMake.gridwidth = 3;
+		gbc_textMake.gridx = 1;
+		gbc_textMake.gridy = 3;
+		frame.getContentPane().add(textMake, gbc_textMake);
+		
+		lblErrorMake = new JLabel("");
+		lblErrorMake.setEnabled(true);
+		GridBagConstraints gbc_lblErrorMake = new GridBagConstraints();
+		gbc_lblErrorMake.fill = GridBagConstraints.BOTH;
+		gbc_lblErrorMake.insets = new Insets(0, 0, 5, 0);
+		gbc_lblErrorMake.gridwidth = 3;
+		gbc_lblErrorMake.gridx = 5;
+		gbc_lblErrorMake.gridy = 3;
+		frame.getContentPane().add(lblErrorMake, gbc_lblErrorMake);
+		
+		JLabel lblModel = new JLabel("Model:");
+		GridBagConstraints gbc_lblModel = new GridBagConstraints();
+		gbc_lblModel.insets = new Insets(0, 0, 5, 5);
+		gbc_lblModel.gridx = 0;
+		gbc_lblModel.gridy = 4;
+		frame.getContentPane().add(lblModel, gbc_lblModel);
 		
 		textModel = new JTextField();
 		textModel.setColumns(10);
-		textModel.setBounds(175, 180, 116, 22);
-		frame.getContentPane().add(textModel);
+		GridBagConstraints gbc_textModel = new GridBagConstraints();
+		gbc_textModel.fill = GridBagConstraints.HORIZONTAL;
+		gbc_textModel.insets = new Insets(0, 0, 5, 5);
+		gbc_textModel.gridwidth = 3;
+		gbc_textModel.gridx = 1;
+		gbc_textModel.gridy = 4;
+		frame.getContentPane().add(textModel, gbc_textModel);
+		
+		lblErrorModel = new JLabel("");
+		lblErrorModel.setEnabled(true);
+		GridBagConstraints gbc_lblErrorModel = new GridBagConstraints();
+		gbc_lblErrorModel.fill = GridBagConstraints.HORIZONTAL;
+		gbc_lblErrorModel.insets = new Insets(0, 0, 5, 0);
+		gbc_lblErrorModel.gridwidth = 3;
+		gbc_lblErrorModel.gridx = 5;
+		gbc_lblErrorModel.gridy = 4;
+		frame.getContentPane().add(lblErrorModel, gbc_lblErrorModel);
+		
+		JLabel lblColour = new JLabel("Colour:");
+		GridBagConstraints gbc_lblColour = new GridBagConstraints();
+		gbc_lblColour.insets = new Insets(0, 0, 5, 5);
+		gbc_lblColour.gridx = 0;
+		gbc_lblColour.gridy = 5;
+		frame.getContentPane().add(lblColour, gbc_lblColour);
+		
+		textColour = new JTextField();
+		textColour.setColumns(10);
+		GridBagConstraints gbc_textColour = new GridBagConstraints();
+		gbc_textColour.fill = GridBagConstraints.HORIZONTAL;
+		gbc_textColour.anchor = GridBagConstraints.NORTH;
+		gbc_textColour.insets = new Insets(0, 0, 5, 5);
+		gbc_textColour.gridwidth = 3;
+		gbc_textColour.gridx = 1;
+		gbc_textColour.gridy = 5;
+		frame.getContentPane().add(textColour, gbc_textColour);
+		
+		lblErrorColour = new JLabel("");
+		lblErrorColour.setEnabled(true);
+		GridBagConstraints gbc_lblErrorColour = new GridBagConstraints();
+		gbc_lblErrorColour.fill = GridBagConstraints.HORIZONTAL;
+		gbc_lblErrorColour.insets = new Insets(0, 0, 5, 0);
+		gbc_lblErrorColour.gridwidth = 3;
+		gbc_lblErrorColour.gridx = 5;
+		gbc_lblErrorColour.gridy = 5;
+		frame.getContentPane().add(lblErrorColour, gbc_lblErrorColour);
+		
+		JLabel lblPrice = new JLabel("Price:");
+		GridBagConstraints gbc_lblPrice = new GridBagConstraints();
+		gbc_lblPrice.insets = new Insets(0, 0, 5, 5);
+		gbc_lblPrice.gridx = 0;
+		gbc_lblPrice.gridy = 6;
+		frame.getContentPane().add(lblPrice, gbc_lblPrice);
+		
+		textPrice = new JTextField();
+		textPrice.setColumns(10);
+		GridBagConstraints gbc_textPrice = new GridBagConstraints();
+		gbc_textPrice.fill = GridBagConstraints.HORIZONTAL;
+		gbc_textPrice.anchor = GridBagConstraints.NORTH;
+		gbc_textPrice.insets = new Insets(0, 0, 5, 5);
+		gbc_textPrice.gridwidth = 3;
+		gbc_textPrice.gridx = 1;
+		gbc_textPrice.gridy = 6;
+		frame.getContentPane().add(textPrice, gbc_textPrice);
+		
+		lblErrorPrice = new JLabel("");
+		lblErrorPrice.setEnabled(true);
+		GridBagConstraints gbc_lblErrorPrice = new GridBagConstraints();
+		gbc_lblErrorPrice.fill = GridBagConstraints.BOTH;
+		gbc_lblErrorPrice.insets = new Insets(0, 0, 5, 0);
+		gbc_lblErrorPrice.gridwidth = 3;
+		gbc_lblErrorPrice.gridx = 5;
+		gbc_lblErrorPrice.gridy = 6;
+		frame.getContentPane().add(lblErrorPrice, gbc_lblErrorPrice);
+		
+		JLabel lblDescription = new JLabel("Description: ");
+		GridBagConstraints gbc_lblDescription = new GridBagConstraints();
+		gbc_lblDescription.insets = new Insets(0, 0, 5, 5);
+		gbc_lblDescription.gridx = 0;
+		gbc_lblDescription.gridy = 7;
+		frame.getContentPane().add(lblDescription, gbc_lblDescription);
+		
+		textDesc = new JTextField();
+		textDesc.setColumns(10);
+		GridBagConstraints gbc_textDesc = new GridBagConstraints();
+		gbc_textDesc.fill = GridBagConstraints.HORIZONTAL;
+		gbc_textDesc.anchor = GridBagConstraints.NORTH;
+		gbc_textDesc.insets = new Insets(0, 0, 5, 5);
+		gbc_textDesc.gridwidth = 3;
+		gbc_textDesc.gridx = 1;
+		gbc_textDesc.gridy = 7;
+		frame.getContentPane().add(textDesc, gbc_textDesc);
 		
 		btnSubmit = new JButton("Submit");
 		btnSubmit.addActionListener(new ActionListener() {
@@ -138,79 +299,29 @@ public class AddForm {
 				  addCar(make,model,reg,colour,price,description);			
 			}
 		});
-		btnSubmit.setBounds(549, 380, 97, 25);
-		frame.getContentPane().add(btnSubmit);
-		
-		textColour = new JTextField();
-		textColour.setColumns(10);
-		textColour.setBounds(175, 225, 116, 22);
-		frame.getContentPane().add(textColour);
-		
-		textPrice = new JTextField();
-		textPrice.setColumns(10);
-		textPrice.setBounds(175, 272, 116, 22);
-		frame.getContentPane().add(textPrice);
-		
-		textDesc = new JTextField();
-		textDesc.setColumns(10);
-		textDesc.setBounds(175, 319, 116, 22);
-		frame.getContentPane().add(textDesc);
-		
-		JLabel lblColour = new JLabel("Colour:");
-		lblColour.setBounds(77, 228, 56, 16);
-		frame.getContentPane().add(lblColour);
-		
-		JLabel lblPrice = new JLabel("Price:");
-		lblPrice.setBounds(77, 275, 56, 16);
-		frame.getContentPane().add(lblPrice);
-		
-		JLabel lblDescription = new JLabel("Description: ");
-		lblDescription.setBounds(77, 322, 86, 16);
-		frame.getContentPane().add(lblDescription);
-		
-		lblErrorMake = new JLabel("");
-		lblErrorMake.setEnabled(true);
-		lblErrorMake.setBounds(344, 140, 302, 16);
-		frame.getContentPane().add(lblErrorMake);
-		
-		lblErrorReg = new JLabel("");
-		lblErrorReg.setEnabled(true);
-		lblErrorReg.setBounds(344, 97, 302, 16);
-		frame.getContentPane().add(lblErrorReg);
-		
-		lblErrorModel = new JLabel("");
-		lblErrorModel.setEnabled(true);
-		lblErrorModel.setBounds(344, 183, 302, 16);
-		frame.getContentPane().add(lblErrorModel);
-		
-		lblErrorColour = new JLabel("");
-		lblErrorColour.setEnabled(true);
-		lblErrorColour.setBounds(344, 231, 302, 16);
-		frame.getContentPane().add(lblErrorColour);
-		
-		lblErrorPrice = new JLabel("");
-		lblErrorPrice.setEnabled(true);
-		lblErrorPrice.setBounds(344, 275, 302, 16);
-		frame.getContentPane().add(lblErrorPrice);
 		
 		lblErrorDesc = new JLabel("");
 		lblErrorDesc.setEnabled(true);
-		lblErrorDesc.setBounds(344, 322, 302, 16);
-		frame.getContentPane().add(lblErrorDesc);
-		
-		textRegCounty = new JTextField();
-		textRegCounty.setColumns(10);
-		textRegCounty.setBounds(217, 94, 30, 22);
-		frame.getContentPane().add(textRegCounty);
-		
-		textRegNum = new JTextField();
-		textRegNum.setColumns(10);
-		textRegNum.setBounds(259, 94, 30, 22);
-		frame.getContentPane().add(textRegNum);
+		GridBagConstraints gbc_lblErrorDesc = new GridBagConstraints();
+		gbc_lblErrorDesc.fill = GridBagConstraints.HORIZONTAL;
+		gbc_lblErrorDesc.insets = new Insets(0, 0, 5, 0);
+		gbc_lblErrorDesc.gridwidth = 3;
+		gbc_lblErrorDesc.gridx = 5;
+		gbc_lblErrorDesc.gridy = 7;
+		frame.getContentPane().add(lblErrorDesc, gbc_lblErrorDesc);
 		
 		lblMessage = new JLabel("");
-		lblMessage.setBounds(77, 384, 302, 16);
-		frame.getContentPane().add(lblMessage);
+		GridBagConstraints gbc_lblMessage = new GridBagConstraints();
+		gbc_lblMessage.fill = GridBagConstraints.HORIZONTAL;
+		gbc_lblMessage.insets = new Insets(0, 0, 0, 5);
+		gbc_lblMessage.gridwidth = 6;
+		gbc_lblMessage.gridx = 0;
+		gbc_lblMessage.gridy = 9;
+		frame.getContentPane().add(lblMessage, gbc_lblMessage);
+		GridBagConstraints gbc_btnSubmit = new GridBagConstraints();
+		gbc_btnSubmit.gridx = 7;
+		gbc_btnSubmit.gridy = 9;
+		frame.getContentPane().add(btnSubmit, gbc_btnSubmit);
 	}//end Initialise
 
 	public void open() {
