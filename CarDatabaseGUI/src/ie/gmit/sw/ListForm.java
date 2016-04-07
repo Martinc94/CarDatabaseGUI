@@ -65,6 +65,7 @@ public class ListForm {
 	 */
 	private void initialize() {
 		frame = new JFrame();
+		frame.setResizable(false);
 		frame.getContentPane().setBackground(Color.RED);
 		frame.setBounds(100, 100, 700, 500);
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -102,6 +103,7 @@ public class ListForm {
 		scrollPane.setViewportView(resultsTable);
 		
 		
+		
 		//new JScrollPane(table, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		resultsTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 	}
@@ -114,9 +116,9 @@ public class ListForm {
 		ListCars lc = new ListCars();	
 		ResultSet rs;
 		try {
-				rs = lc.getAllCars();
-			
+				rs = lc.getAllCars();		
 				DefaultTableModel m = (DefaultTableModel) resultsTable.getModel();
+				
 				rs = lc.getAllCars();
 				m.addColumn("Make");
 		        m.addColumn("Model");
@@ -137,6 +139,9 @@ public class ListForm {
 				    // This will add row from the DB as the last row in the JTable. 
 				    m.insertRow(table.getRowCount(), new Object[] {make, model,reg,colour,price,description});
 				}
+				
+				
+				
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}

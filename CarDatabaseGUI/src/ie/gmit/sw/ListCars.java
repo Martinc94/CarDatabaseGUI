@@ -4,7 +4,7 @@ import java.sql.*;
 
 public class ListCars {				
 									
-	public static void list(){
+	public void list(){
 		Driver d = new Driver();
 		
 		Connection conn;

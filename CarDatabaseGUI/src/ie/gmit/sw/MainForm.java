@@ -47,6 +47,7 @@ public class MainForm {
 	 */
 	private void initialize() {
 		frame = new JFrame();
+		frame.setResizable(false);
 		frame.getContentPane().setBackground(Color.RED);
 		frame.setForeground(Color.WHITE);
 		frame.setBackground(Color.WHITE);
