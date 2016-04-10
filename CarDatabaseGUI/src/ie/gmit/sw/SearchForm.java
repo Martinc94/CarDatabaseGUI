@@ -139,7 +139,7 @@ public class SearchForm {
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
 		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-		scrollPane.setBounds(47, 184, 600, 200);
+		scrollPane.setBounds(47, 150, 600, 200);
 		frame.getContentPane().add(scrollPane);
 		
 		table = new JTable();
@@ -182,7 +182,7 @@ public class SearchForm {
 
 			    // This will add row from the DB as the last row in the JTable. 
 			    m.insertRow(table.getRowCount(), new Object[] {make, model,reg,colour,price,description});
-			    System.out.println("Added "+make+ model+reg+colour+price+description);
+			    //System.out.println("Added "+make+ model+reg+colour+price+description);
 			    //System.out.println("adding");
 			}
 		} catch (SQLException e) {
@@ -273,5 +273,4 @@ public void searchRegClick(){
 	}
 
 }
-
 }//endSearchForm

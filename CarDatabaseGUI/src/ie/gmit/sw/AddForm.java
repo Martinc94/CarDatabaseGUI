@@ -345,6 +345,7 @@ public class AddForm {
 			//System.out.println(valid);
 			btnSubmit.setEnabled(false);
 			double Price2 = Double.parseDouble(price);
+			lblMessage.setText("Connecting to database");
 			//add to database
 			Car c =new Car(make, model, reg, colour, Price2, description);
 			boolean success=c.addToDB(make, model, reg, colour, price, description);

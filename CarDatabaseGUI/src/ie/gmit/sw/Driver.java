@@ -9,12 +9,12 @@ public class Driver {
 	Connection getConn() throws SQLException{
 		Connection conn;
 		
-		try {
+		//try {
 			conn = DriverManager.getConnection("jdbc:mysql://CarDatabase.cloudapp.net:3306/cardb",user,password);
-		} catch (Exception e) {
-			System.out.println("Error connecting to Azure Trying to connect to Localhost");
-			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/cardb","root","");
-		}
+		//} catch (Exception e) {
+			//System.out.println("Error connecting to Azure.");
+			//conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/cardb","root","");
+		//}
 		
 		
 		return conn;	
