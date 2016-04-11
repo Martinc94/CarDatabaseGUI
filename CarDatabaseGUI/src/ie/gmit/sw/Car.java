@@ -40,8 +40,6 @@ public class Car {
 		this.description = description;
 		this.picture = picture;
 		
-		//addToDB();
-		
 	}
 	
 	public Car(String make, String model,String reg, String colour, Double price, String description) {
@@ -127,12 +125,6 @@ public class Car {
 				+ ", price=" + price + ", description=" + description + ", picture=" + picture + "]";
 	}
 	
-	/*public boolean addedToDB(String make,String model,String reg,String colour,String price,String description) {
-		boolean added;
-		added=addToDB(make, model, reg, colour, price, description);
-		return added;
-	}*/
-	
 	public boolean addToDB(String make,String model,String reg,String colour,String price,String description) {
 		boolean added=true;
 		Driver d = new Driver();
@@ -145,10 +137,7 @@ public class Car {
 			String sql = "Insert into car (id,reg,make,model,colour,price,description,picture) "+						
 					"values ('"+id+ "','"+ reg+"','"+ make+"','"+ model+"','"+ colour+"','"+ price+"','"+ description+"',"+ picture+")";
 			
-			stmt.executeUpdate(sql);
-			//System.out.println(sql);
-			
-			//System.out.println("Insert complete.");	
+			stmt.executeUpdate(sql);	
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
