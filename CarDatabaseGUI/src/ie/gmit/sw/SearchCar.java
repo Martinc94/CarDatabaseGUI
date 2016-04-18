@@ -72,4 +72,25 @@ public class SearchCar {
 		}
 		return myResultSet;
 	}//end searchReg
+	
+	public ResultSet searchExactReg(String reg) {
+		Driver d = new Driver();
+		ResultSet myResultSet = null;
+		
+		
+		Connection conn;
+		try {
+			conn = d.getConn();
+			
+			Statement stmt = conn.createStatement();
+	
+			String qry = "select * from car where reg = '"+reg+"'";
+
+			myResultSet = stmt.executeQuery(qry);
+
+		} catch (SQLException e) {
+			System.out.println("Error Getting Results set");	
+		}
+		return myResultSet;
+	}//end searchReg
 }

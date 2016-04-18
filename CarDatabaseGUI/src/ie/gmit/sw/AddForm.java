@@ -46,7 +46,6 @@ public class AddForm {
 	private String colour;
 	private String price;
 	private String description;
-	private File picture;
 	
 	private String regYr;
 	private String regCo;

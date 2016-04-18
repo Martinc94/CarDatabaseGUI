@@ -1,6 +1,5 @@
 package ie.gmit.sw;
 
-import java.io.File;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -13,44 +12,28 @@ public class Car {
 	private String colour;
 	private Double price;
 	private String description;
-	private File picture;
-	
-	public Car(int id, String reg, String make, String model, String colour, Double price, String description,File picture) {
-		//Constructor for Existing Car
-		this.id = id;
-		this.reg = reg;
-		this.make = make;
-		this.model = model;
-		this.colour = colour;
-		this.price = price;
-		this.description = description;
-		this.picture = picture;
-		
-	}
-	
-	public Car(String make, String model,String reg, String colour, Double price, String description,File picture) {
-		//Constructor for new Car
-		//for new car 0 gets assigned a new id in database
-		this.id = 0;
-		this.reg = reg;
-		this.make = make;
-		this.model = model;
-		this.colour = colour;
-		this.price = price;
-		this.description = description;
-		this.picture = picture;
-		
-	}
-	
+
 	public Car(String make, String model,String reg, String colour, Double price, String description) {
 		//for new car 0 gets assigned a new id in database
-		////Constructor for new car for no picture
+		////Constructor for new car
 		this.id = 0;
 		this.reg = reg;
 		this.make = make;
 		this.model = model;
 		this.colour = colour;
 		this.price = price;
+		this.description = description;
+		
+	}
+	
+	public Car(String id,String make, String model,String reg, String colour, String price, String description) {
+		////Constructor for existing car 
+		this.id = Integer.parseInt(id);
+		this.reg = reg;
+		this.make = make;
+		this.model = model;
+		this.colour = colour;
+		this.price = Double.parseDouble(price);
 		this.description = description;
 		
 	}
@@ -111,18 +94,10 @@ public class Car {
 		this.description = description;
 	}
 
-	public File getPicture() {
-		return picture;
-	}
-
-	public void setPicture(File picture) {
-		this.picture = picture;
-	}
-
 	@Override
 	public String toString() {
 		return "Car [id=" + id + ", reg=" + reg + ", make=" + make + ", model=" + model + ", colour=" + colour
-				+ ", price=" + price + ", description=" + description + ", picture=" + picture + "]";
+				+ ", price=" + price + ", description=" + description +"]";
 	}
 	
 	public boolean addToDB(String make,String model,String reg,String colour,String price,String description) {
@@ -134,8 +109,62 @@ public class Car {
 			
 			Statement stmt = conn.createStatement();	
 			
-			String sql = "Insert into car (id,reg,make,model,colour,price,description,picture) "+						
-					"values ('"+id+ "','"+ reg+"','"+ make+"','"+ model+"','"+ colour+"','"+ price+"','"+ description+"',"+ picture+")";
+			String sql = "Insert into car (id,reg,make,model,colour,price,description) "+						
+					"values ('"+id+ "','"+ reg+"','"+ make+"','"+ model+"','"+ colour+"','"+ price+"','"+ description+"')";
+			
+			stmt.executeUpdate(sql);	
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+			System.out.println("Error Inserting to database Try Again.");
+			added=false;
+		}
+		return added;
+
+	}
+	
+	public boolean UpdateToDB() {
+		boolean added=true;
+		Driver d = new Driver();
+		Connection conn;
+		try {
+			conn = d.getConn();
+			
+			Statement stmt = conn.createStatement();	
+			
+			//update Command
+			String sql = "UPDATE car SET  make  =\""+make +"\","
+										+"model =\""+model+"\","
+										+"colour =\""+colour+"\","
+										+"price =\""+price+"\","
+										+"description =\""+description+"\""
+										+ "WHERE car.id =\""+id+"\"";
+		
+					
+			
+			stmt.executeUpdate(sql);	
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+			System.out.println("Error Inserting to database Try Again.");
+			added=false;
+		}
+		return added;
+	}
+	
+	public boolean DeleteFromDB() {
+		boolean added=true;
+		Driver d = new Driver();
+		Connection conn;
+		try {
+			conn = d.getConn();
+			
+			Statement stmt = conn.createStatement();	
+			
+			//Delete Command
+			String sql = "DELETE FROM car WHERE id =\""+id+"\"";
+		
+					
 			
 			stmt.executeUpdate(sql);	
 			
