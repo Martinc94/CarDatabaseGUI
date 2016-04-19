@@ -4,6 +4,8 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Color;
 import java.awt.Font;
 import javax.swing.SwingConstants;
@@ -34,7 +36,16 @@ public class UpdateForm {
 	private JTextField txtDesc;
 	private JButton btnUpdate;
 	private JButton btnDelete;
+	private JLabel lblPrice;
+	private JLabel lblDescription ;
+	private JLabel lblErrorMake;
+	private JLabel lblErrorModel;
+	private JLabel lblErrorColour;
+	private JLabel lblErrorPrice ;
+	private JLabel lblErrorDesc;
 	private Car c;
+	private boolean valid;
+	private boolean validDouble;
 
 	/**
 	 * Launch the application.
@@ -64,6 +75,7 @@ public class UpdateForm {
 	 */
 	private void initialize() {
 		frame = new JFrame();
+		frame.setResizable(false);
 		frame.getContentPane().setBackground(Color.RED);
 		frame.setBounds(100, 100, 700, 500);
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -103,21 +115,52 @@ public class UpdateForm {
 		btnUpdate.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				//UPDATE
+				//validation checks
+				valid= validateCar(txtMake.getText(), txtModel.getText(), txtColour.getText(), txtPrice.getText(), txtDesc.getText());
 				
+				if(valid==true){
+					
+					//update car from Textboxes
+				     c.setMake(txtMake.getText());
+				     c.setModel(txtModel.getText());
+					 c.setColour(txtColour.getText());	
+					 //convert string to double
+					 Double dou = Double.valueOf((txtPrice.getText()));
+					 c.setPrice(dou);
+					 c.setDescription(txtDesc.getText());
+					
+					//Update to database
+					try {
+						c.UpdateToDB();
+						JOptionPane.showMessageDialog(frame,"Car Update Sucessful");					
+						reset();
+					} catch (SQLException e) {
+						JOptionPane.showMessageDialog(frame,"Unable to Update Car");
+					}
+					
+					
+				}
 			}
 		});
 		btnUpdate.setEnabled(false);
-		btnUpdate.setBounds(162, 341, 97, 25);
+		btnUpdate.setBounds(106, 341, 97, 25);
 		frame.getContentPane().add(btnUpdate);
 		
 		btnDelete = new JButton("Delete");
 		btnDelete.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				//DELETE
+				//confirm Delete
+				int reply = JOptionPane.showConfirmDialog(null, "Are you sure you want to delete car with reg: "+reg, "Delete", JOptionPane.YES_NO_OPTION);
+			    if (reply == JOptionPane.YES_OPTION)
+			    {
+			      c.DeleteFromDB();
+			      reset();
+			    }
 			}
 		});
 		btnDelete.setEnabled(false);
-		btnDelete.setBounds(410, 341, 97, 25);
+		btnDelete.setBounds(298, 341, 97, 25);
 		frame.getContentPane().add(btnDelete);
 		
 		txtId = new JTextField();
@@ -177,15 +220,67 @@ public class UpdateForm {
 		frame.getContentPane().add(txtDesc);
 		txtDesc.setColumns(10);
 		
-		JLabel lblPrice = new JLabel("Price:");
+		lblPrice = new JLabel("Price:");
 		lblPrice.setBounds(490, 172, 46, 14);
 		frame.getContentPane().add(lblPrice);
 		
-		JLabel lblDescription = new JLabel("Description:");
+		lblDescription = new JLabel("Description:");
 		lblDescription.setBounds(586, 172, 71, 14);
 		frame.getContentPane().add(lblDescription);
+		
+		lblErrorMake = new JLabel("");
+		lblErrorMake.setBounds(106, 231, 86, 14);
+		frame.getContentPane().add(lblErrorMake);
+		
+		lblErrorModel = new JLabel("");
+		lblErrorModel.setBounds(202, 231, 86, 14);
+		frame.getContentPane().add(lblErrorModel);
+		
+		lblErrorColour = new JLabel("");
+		lblErrorColour.setBounds(394, 231, 86, 14);
+		frame.getContentPane().add(lblErrorColour);
+		
+		lblErrorPrice = new JLabel("");
+		lblErrorPrice.setBounds(490, 231, 86, 14);
+		frame.getContentPane().add(lblErrorPrice);
+		
+		lblErrorDesc = new JLabel("");
+		lblErrorDesc.setBounds(586, 231, 108, 14);
+		frame.getContentPane().add(lblErrorDesc);
+		
+		JButton btnReset = new JButton("Reset");
+		btnReset.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				reset();
+			}
+		});
+		btnReset.setBounds(487, 342, 89, 23);
+		frame.getContentPane().add(btnReset);
 	}
 	
+	protected void reset() {
+		 id = "";
+	     make = "";
+		 model = "";
+		 reg = "";
+		 colour = "";
+		 price = "";
+		 description = "";
+		 
+		 //Update textBoxes
+		 txtId.setText("");
+		 txtMake.setText("");
+		 txtModel.setText("");
+		 txtReg.setText("");
+		 txtColour.setText("");
+		 txtPrice.setText("");
+		 txtDesc.setText("");
+		 
+		 btnUpdate.setEnabled(false);
+		 btnDelete.setEnabled(false);
+		
+	}
+
 	public void open() {
 		frame.setVisible(true);
 		
@@ -198,7 +293,8 @@ public void searchRegClick(){
 
 	try {
 		while(rs.next())
-		{ 			
+		{ 		
+			//sets variables from result set 
 			 id = rs.getString("id");
 		     make = rs.getString("make");
 			 model = rs.getString("model");
@@ -207,31 +303,96 @@ public void searchRegClick(){
 			 price = rs.getString("price");
 			 description = rs.getString("description");
 			 
-			 //Update textBoxes
+			 //Update textBoxes from variables
 			 txtId.setText(id);
 			 txtMake.setText(make);
 			 txtModel.setText(model);
 			 txtReg.setText(reg);
 			 txtColour.setText(colour);
 			 txtPrice.setText(price);
-			 txtDesc.setText(description);
-			 
-			 c = new Car(id,reg,make,model,colour,price,description);
-			 
+			 txtDesc.setText(description); 
+			 //create new car object
+			 c = new Car(id,reg,make,model,colour,price,description); 
 			 btnUpdate.setEnabled(true);
 			 btnDelete.setEnabled(true);
-			 
-			 //c.UpdateToDB();
-			 
-
-		    // This will add row from the DB as the last row in the JTable. 
-		    //m.insertRow(table.getRowCount(), new Object[] {make, model,reg,colour,price,description});
-		  
+  
 		}
 	} catch (SQLException e) {
 		System.out.println("unable to populate table" );
-		//e.printStackTrace();
+		JOptionPane.showMessageDialog(frame,"Unable to populate table");
 	}
 
+}
+
+private boolean validateCar(String make,String model,String colour,String price,String description){
+	boolean valid=true;
+	if(make.length()==0){
+		lblErrorMake.setText("Invalid Make");
+		valid=false;
+		//exit
+	}
+	else{
+		lblErrorMake.setText("");
+	}
+	
+	
+	if(model.length()==0){
+		lblErrorModel.setText("Invalid Model");
+		valid=false;
+		//exit
+	}
+	else{
+		lblErrorModel.setText("");
+		
+	}
+	
+	if(colour.length()==0){
+		lblErrorColour.setText("Invalid Colour");
+		valid=false;
+		
+		//exit
+	}
+	else{
+		lblErrorColour.setText("");
+	}
+	
+	validDouble=false;
+	
+	if(price!=""){
+		validDouble =convertToDouble(price);
+	}
+	if(validDouble==false){
+		lblErrorPrice.setText("Invalid Price");
+		valid=false;
+		//exit
+	}
+	else{
+		lblErrorPrice.setText("");
+	}
+	
+	if(description.length()==0){
+		lblErrorDesc.setText("Invalid Description");
+		valid=false;
+		//exit
+	}
+	else{
+		lblErrorDesc.setText("");
+	}
+	return valid;
+	
+}//end validateCar
+
+private boolean convertToDouble(String price) {
+	boolean validDouble=true;
+	try {
+		@SuppressWarnings("unused")
+		double doub = Double.parseDouble(price);
+	} catch (NumberFormatException e) {
+		//e.printStackTrace();
+		//System.out.println("Error converting");
+		validDouble=false;
+	}
+	return validDouble;
+	
 }
 }//endSearchForm

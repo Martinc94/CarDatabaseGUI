@@ -4,6 +4,7 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 
 import java.awt.Color;
@@ -39,11 +40,6 @@ public class ListForm {
 				try {
 					ListForm window = new ListForm();
 					window.frame.setVisible(true);
-					//ListCars lc = new ListCars();
-
-					//ResultSet rs = lc.getAllCars();
-					
-					
 					 
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -96,15 +92,10 @@ public class ListForm {
 		gbc_scrollPane.gridx = 0;
 		gbc_scrollPane.gridy = 2;
 		frame.getContentPane().add(scrollPane, gbc_scrollPane);
-		
 		resultsTable = new JTable();
 		resultsTable.setForeground(Color.BLACK);
 		resultsTable.setBackground(Color.WHITE);
 		scrollPane.setViewportView(resultsTable);
-		
-		
-		
-		//new JScrollPane(table, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		resultsTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 	}
 	
@@ -140,12 +131,8 @@ public class ListForm {
 				    m.insertRow(table.getRowCount(), new Object[] {make, model,reg,colour,price,description});
 				}
 				
-				
-				
 			} catch (SQLException e) {
-				e.printStackTrace();
+				JOptionPane.showMessageDialog(frame,"Unable to get information from database");	
 			}
-	
-	
 	}//end fillTable
 }

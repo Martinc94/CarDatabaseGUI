@@ -1,21 +1,17 @@
 package ie.gmit.sw;
 
 import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.Window;
-
 import javax.swing.SwingConstants;
-import javax.swing.SwingUtilities;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
-import java.io.File;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.awt.event.ActionEvent;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
@@ -48,10 +44,10 @@ public class AddForm {
 	private String description;
 	
 	private String regYr;
-	private String regCo;
+	private String regCounty;
 	private String regNum;
 	
-	boolean validDouble;
+	private boolean validDouble;
 	private JTextField textRegCounty;
 	private JTextField textRegNum;
 
@@ -290,7 +286,8 @@ public class AddForm {
 				  make=textMake.getText();
 				  model=textModel.getText();
 				  regYr=textRegYear.getText();
-				  regCo=textRegCounty.getText().toUpperCase();
+				  textRegCounty.setText(textRegCounty.getText().toUpperCase());
+				  regCounty=textRegCounty.getText().toUpperCase();
 				  regNum=textRegNum.getText();
 				  colour=textColour.getText();
 				  price = textPrice.getText();
@@ -333,31 +330,31 @@ public class AddForm {
 		boolean validCar;
 		boolean validReg;
 		
-		reg=concatReg(regYr, regCo, regNum);			
-		validReg=ValidateReg(regYr, regCo, regNum);
+		reg=concatReg(regYr, regCounty, regNum);			
+		validReg=ValidateReg(regYr, regCounty, regNum);
 		validCar =validateCar( make, model, reg, colour, price, description);
 		
 		if(validCar&validReg)
 			valid=true;
 				
 		if (valid == true){
-			//System.out.println(valid);
 			btnSubmit.setEnabled(false);
 			double Price2 = Double.parseDouble(price);
 			lblMessage.setText("Connecting to database");
 			//add to database
 			Car c =new Car(make, model, reg, colour, Price2, description);
-			boolean success=c.addToDB(make, model, reg, colour, price, description);
-			if (success){
+			
+			
+			 try {
+				c.addToDB(make, model, reg, colour, price, description);
 				lblMessage.setText("Car Added Sucessful");
-				JOptionPane.showMessageDialog(frame,"Car Added Sucessful");				
-			}
-			else{
+				JOptionPane.showMessageDialog(frame,"Car Added Sucessful");
+			} catch (SQLException e) {
 				lblMessage.setText("Unable To add car to database");
 				JOptionPane.showMessageDialog(frame,"Unable To add car to database");
 				btnSubmit.setEnabled(true);
 			}
-		
+			 
 		}
 		
 	}//end addCar
@@ -377,28 +374,15 @@ public class AddForm {
 		if(model.length()==0){
 			lblErrorModel.setText("Please enter Model");
 			valid=false;
-			//exit
 		}
 		else{
 			lblErrorModel.setText("");
 			
 		}
 		
-		/*if(reg.length()==0){
-			lblErrorReg.setText("Please enter Registration");
-			valid=false;
-			
-			//exit
-		}
-		else{
-			lblErrorReg.setText("");
-		}*/
-		
 		if(colour.length()==0){
 			lblErrorColour.setText("Please enter Colour");
 			valid=false;
-			
-			//exit
 		}
 		else{
 			lblErrorColour.setText("");
@@ -412,7 +396,6 @@ public class AddForm {
 		if(validDouble==false){
 			lblErrorPrice.setText("Please enter Price");
 			valid=false;
-			//exit
 		}
 		else{
 			lblErrorPrice.setText("");
@@ -421,38 +404,75 @@ public class AddForm {
 		if(description.length()==0){
 			lblErrorDesc.setText("Please enter Description");
 			valid=false;
-			//exit
 		}
+		
 		else{
 			lblErrorDesc.setText("");
 		}
+		
+		Boolean entered= Enteredreg();
+		if(entered==false){
+			valid=false;
+			lblErrorReg.setText("Please enter Registration");
+		}
+		
+		Boolean valReg = ValidateReg(textRegYear.getText(), textRegCounty.getText(), textRegNum.getText());
+		if(valReg==false){
+			valid=false;
+			lblErrorReg.setText("Please enter Registration");
+		}
+		else{
+			lblErrorReg.setText("");
+		}
+		
+		
 		return valid;
 		
 	}//end validateCar
+	
+	private boolean UniqueReg(String regis){
+		boolean unique=true;
+		
+		ListCars lc = new ListCars();	
+		ResultSet rs;
+		try {	
+				rs = lc.getAllCars();
+				while(rs.next())
+				{ 				 
+					 reg = rs.getString("reg");
+					 //reg in database
+					 if(reg.equalsIgnoreCase(regis)){
+						 unique=false;
+					 }
+				}
+				
+			} catch (SQLException e) {
+				JOptionPane.showMessageDialog(frame,"Unable to get information from database");	
+			}
+		
+		
+		return unique;	
+	}
 
 	private boolean convertToDouble(String price) {
 		boolean validDouble=true;
 		try {
+			@SuppressWarnings("unused")
 			double doub = Double.parseDouble(price);
 		} catch (NumberFormatException e) {
-			//e.printStackTrace();
-			//System.out.println("Error converting");
 			validDouble=false;
 		}
 		return validDouble;
 		
 	}
 
-	private boolean ValidCo(String str){
+	private boolean ValidCounty(String str){
 		boolean validCo=false;
 			//regular expression to make sure String has only (A-Z)
 			if (str.matches("[A-Z]+$")) {
 				// str consists entirely of letters
 				validCo=true;
-				//System.out.println(str);
 			}
-		
-		//System.out.println(validInt);
 		return validCo;
 		
 	}
@@ -460,6 +480,7 @@ public class AddForm {
 	private boolean convertToInt(String str){
 		boolean validInt=true;
 		try {
+			@SuppressWarnings("unused")
 			int i = Integer.parseInt(str);
 		} catch (NumberFormatException e) {
 			//e.printStackTrace();
@@ -480,11 +501,12 @@ public class AddForm {
 	
 	private Boolean ValidateReg(String yr,String co,String num) {
 		Boolean validReg=true;
+		Boolean uniReg=true;
 		if(yr.length()>3||yr.length()==0||convertToInt(yr)==false){
 			 validReg=false;
 		}
 		
-		if(co.length()>2||co.length()==0||ValidCo(co)==false){
+		if(co.length()>2||co.length()==0||ValidCounty(co)==false){
 			 validReg=false;
 		}
 		
@@ -495,9 +517,33 @@ public class AddForm {
 		if(validReg==false){
 			lblErrorReg.setText("Please enter Vaild Registration");
 		}
+		
+		uniReg=UniqueReg(yr+"-"+co+"-"+num);
+		
+		if(uniReg==false){
+			lblErrorReg.setText("Reg already in use");
+			validReg=false;
+		}
+		
 		else{
 			lblErrorReg.setText("");
 		}
 		return validReg;	
 	}
+
+	private Boolean Enteredreg(){
+		boolean val=true;
+		
+		String yr=textRegYear.getText();
+		String co=textRegCounty.getText();
+		String num=textRegNum.getText();	
+		
+		if(yr.isEmpty()||co.isEmpty()||num.isEmpty()){
+			val=false;
+		}
+		
+		return val;
+		
+	}
+	
 }

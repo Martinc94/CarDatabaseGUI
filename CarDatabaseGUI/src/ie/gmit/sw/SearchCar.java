@@ -7,13 +7,13 @@ import java.sql.Statement;
 
 public class SearchCar {
 	
-	public ResultSet searchMake(String make){
+	public ResultSet searchMake(String make) throws SQLException{
 		Driver d = new Driver();
 		ResultSet myResultSet = null;
 		
 		
 		Connection conn;
-		try {
+		
 			conn = d.getConn();
 			
 			Statement stmt = conn.createStatement();
@@ -22,10 +22,7 @@ public class SearchCar {
 
 			myResultSet = stmt.executeQuery(qry);
 
-		} catch (SQLException e) {
-			System.out.println("Error Getting Results set");
-			//e.printStackTrace();
-		}
+	
 		return myResultSet;
 	
 	

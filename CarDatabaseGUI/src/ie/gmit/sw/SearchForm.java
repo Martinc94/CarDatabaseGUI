@@ -4,15 +4,13 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Color;
 import java.awt.Font;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.JTextField;
-import java.awt.GridBagLayout;
-import java.awt.GridBagConstraints;
-import java.awt.Insets;
-import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JButton;
@@ -155,7 +153,13 @@ public class SearchForm {
 		
 		SearchCar sc = new SearchCar();
 			
-		ResultSet rs =sc.searchMake(textMake.getText());
+		ResultSet rs=null;
+		
+		try {
+			rs = sc.searchMake(textMake.getText());
+		} catch (SQLException e1) {
+			JOptionPane.showMessageDialog(frame,"Unable to get result set");
+		}
 
 		table.setModel(new DefaultTableModel());
 		
@@ -182,12 +186,9 @@ public class SearchForm {
 
 			    // This will add row from the DB as the last row in the JTable. 
 			    m.insertRow(table.getRowCount(), new Object[] {make, model,reg,colour,price,description});
-			    //System.out.println("Added "+make+ model+reg+colour+price+description);
-			    //System.out.println("adding");
 			}
 		} catch (SQLException e) {
-			System.out.println("unable to populate table" );
-			//e.printStackTrace();
+			JOptionPane.showMessageDialog(frame,"Unable to populate table");
 		}
 		
 	
@@ -224,12 +225,9 @@ public void searchModelClick(){
 
 		    // This will add row from the DB as the last row in the JTable. 
 		    m.insertRow(table.getRowCount(), new Object[] {make, model,reg,colour,price,description});
-		    //System.out.println("Added "+make+ model+reg+colour+price+description);
-		    //System.out.println("adding");
 		}
 	} catch (SQLException e) {
-		System.out.println("unable to populate table" );
-		//e.printStackTrace();
+		JOptionPane.showMessageDialog(frame,"Unable to populate table");
 	}
 	
 }
@@ -268,8 +266,7 @@ public void searchRegClick(){
 		  
 		}
 	} catch (SQLException e) {
-		System.out.println("unable to populate table" );
-		//e.printStackTrace();
+		JOptionPane.showMessageDialog(frame,"Unable to populate table");
 	}
 
 }

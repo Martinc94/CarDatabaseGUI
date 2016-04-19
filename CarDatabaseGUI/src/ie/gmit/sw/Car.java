@@ -100,11 +100,11 @@ public class Car {
 				+ ", price=" + price + ", description=" + description +"]";
 	}
 	
-	public boolean addToDB(String make,String model,String reg,String colour,String price,String description) {
-		boolean added=true;
+	public void addToDB(String make,String model,String reg,String colour,String price,String description) throws SQLException {
+		
 		Driver d = new Driver();
 		Connection conn;
-		try {
+		
 			conn = d.getConn();
 			
 			Statement stmt = conn.createStatement();	
@@ -114,20 +114,15 @@ public class Car {
 			
 			stmt.executeUpdate(sql);	
 			
-		} catch (SQLException e) {
-			e.printStackTrace();
-			System.out.println("Error Inserting to database Try Again.");
-			added=false;
-		}
-		return added;
+		
+		
 
 	}
 	
-	public boolean UpdateToDB() {
-		boolean added=true;
+	public void UpdateToDB() throws SQLException {
 		Driver d = new Driver();
 		Connection conn;
-		try {
+		
 			conn = d.getConn();
 			
 			Statement stmt = conn.createStatement();	
@@ -144,12 +139,6 @@ public class Car {
 			
 			stmt.executeUpdate(sql);	
 			
-		} catch (SQLException e) {
-			e.printStackTrace();
-			System.out.println("Error Inserting to database Try Again.");
-			added=false;
-		}
-		return added;
 	}
 	
 	public boolean DeleteFromDB() {
@@ -169,7 +158,6 @@ public class Car {
 			stmt.executeUpdate(sql);	
 			
 		} catch (SQLException e) {
-			e.printStackTrace();
 			System.out.println("Error Inserting to database Try Again.");
 			added=false;
 		}
