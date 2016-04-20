@@ -35,7 +35,7 @@ public class SearchForm {
 	private JTable table;
 
 	/**
-	 * Launch the application.
+	 * Launch the Form.
 	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -51,7 +51,7 @@ public class SearchForm {
 	}
 
 	/**
-	 * Create the application.
+	 * Create the form.
 	 */
 	public SearchForm() {
 		initialize();
@@ -106,6 +106,7 @@ public class SearchForm {
 		frame.getContentPane().add(textReg);
 		textReg.setColumns(10);
 		
+		//button to Search by make
 		JButton btnMake = new JButton("Search");
 		btnMake.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -116,6 +117,7 @@ public class SearchForm {
 		btnMake.setBounds(331, 69, 89, 23);
 		frame.getContentPane().add(btnMake);
 		
+		//button to Search by model
 		JButton btnModel = new JButton("Search");
 		btnModel.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -125,6 +127,7 @@ public class SearchForm {
 		btnModel.setBounds(331, 94, 89, 23);
 		frame.getContentPane().add(btnModel);
 		
+		//button to Search by Reg
 		JButton btnReg = new JButton("Search");
 		btnReg.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -143,30 +146,33 @@ public class SearchForm {
 		table = new JTable();
 		scrollPane.setViewportView(table);
 	}
-	
+	/**
+	 * Makes form visible
+	 */
 	public void open() {
-		frame.setVisible(true);
-		
+		frame.setVisible(true);	
 	}
 	
+	/**
+	 * Adds data to table by Make
+	 */
+	
 	public void searchMakeClick(){
-		
-		SearchCar sc = new SearchCar();
-			
+		SearchCar sc = new SearchCar();	
 		ResultSet rs=null;
-		
+		//try to get Result set
 		try {
 			rs = sc.searchMake(textMake.getText());
 		} catch (SQLException e1) {
 			JOptionPane.showMessageDialog(frame,"Unable to get result set");
 		}
 
+		//Setup for table
 		table.setModel(new DefaultTableModel());
 		
 		DefaultTableModel m = (DefaultTableModel) table.getModel();
 		
-		m.getDataVector().removeAllElements();
-		
+		m.getDataVector().removeAllElements();		
 		m.addColumn("Make");
         m.addColumn("Model");
         m.addColumn("Reg");
@@ -174,6 +180,7 @@ public class SearchForm {
         m.addColumn("Price");
         m.addColumn("Description");
         JTable table = new JTable(m);
+        //add data to table
 		try {
 			while(rs.next())
 			{ 			
@@ -190,84 +197,96 @@ public class SearchForm {
 		} catch (SQLException e) {
 			JOptionPane.showMessageDialog(frame,"Unable to populate table");
 		}
-		
 	
-	}
-
-public void searchModelClick(){
+	}//end searchMakeClick
 	
-	SearchCar sc = new SearchCar();
-		
-	ResultSet rs =sc.searchModel(textModel.getText());
-
-	table.setModel(new DefaultTableModel());
+	/**
+	 * Adds data to table by Model
+	 */
 	
-	DefaultTableModel m = (DefaultTableModel) table.getModel();
-	
-	m.getDataVector().removeAllElements();
-	
-	m.addColumn("Make");
-    m.addColumn("Model");
-    m.addColumn("Reg");
-    m.addColumn("Colour");
-    m.addColumn("Price");
-    m.addColumn("Description");
-    JTable table = new JTable(m);
-	try {
-		while(rs.next())
-		{ 			
-		     make = rs.getString("make");
-			 model = rs.getString("model");
-			 reg = rs.getString("reg");
-			 colour = rs.getString("colour");
-			 price = rs.getString("price");
-			 description = rs.getString("description");
-
-		    // This will add row from the DB as the last row in the JTable. 
-		    m.insertRow(table.getRowCount(), new Object[] {make, model,reg,colour,price,description});
+	public void searchModelClick(){	
+		SearchCar sc = new SearchCar();	
+		ResultSet rs=null;
+		//try to get result set
+		try {
+			rs = sc.searchModel(textModel.getText());
+		} catch (SQLException e1) {
+			//cannot get result set
+			JOptionPane.showMessageDialog(frame,"Unable to get result set");
 		}
-	} catch (SQLException e) {
-		JOptionPane.showMessageDialog(frame,"Unable to populate table");
-	}
+		//Setup for table
+		table.setModel(new DefaultTableModel());	
+		DefaultTableModel m = (DefaultTableModel) table.getModel();
+		m.getDataVector().removeAllElements();	
+		m.addColumn("Make");
+	    m.addColumn("Model");
+	    m.addColumn("Reg");
+	    m.addColumn("Colour");
+	    m.addColumn("Price");
+	    m.addColumn("Description");
+	    JTable table = new JTable(m);
+	    //add data to table
+		try {
+			while(rs.next())
+			{ 			
+			     make = rs.getString("make");
+				 model = rs.getString("model");
+				 reg = rs.getString("reg");
+				 colour = rs.getString("colour");
+				 price = rs.getString("price");
+				 description = rs.getString("description");
 	
-}
-
-public void searchRegClick(){
-	
-	SearchCar sc = new SearchCar();
-		
-	ResultSet rs =sc.searchReg(textReg.getText());
-
-	table.setModel(new DefaultTableModel());
-	
-	DefaultTableModel m = (DefaultTableModel) table.getModel();
-	
-	m.getDataVector().removeAllElements();
-	
-	m.addColumn("Make");
-    m.addColumn("Model");
-    m.addColumn("Reg");
-    m.addColumn("Colour");
-    m.addColumn("Price");
-    m.addColumn("Description");
-    JTable table = new JTable(m);
-	try {
-		while(rs.next())
-		{ 			
-		     make = rs.getString("make");
-			 model = rs.getString("model");
-			 reg = rs.getString("reg");
-			 colour = rs.getString("colour");
-			 price = rs.getString("price");
-			 description = rs.getString("description");
-
-		    // This will add row from the DB as the last row in the JTable. 
-		    m.insertRow(table.getRowCount(), new Object[] {make, model,reg,colour,price,description});
-		  
+			    // This will add row from the DB as the last row in the JTable. 
+			    m.insertRow(table.getRowCount(), new Object[] {make, model,reg,colour,price,description});
+			}
+		} catch (SQLException e) {
+			JOptionPane.showMessageDialog(frame,"Unable to populate table");
 		}
-	} catch (SQLException e) {
-		JOptionPane.showMessageDialog(frame,"Unable to populate table");
-	}
-
-}
+		
+	}//endSearchModelClick
+	
+	/**
+	 * Adds data to table by Reg
+	 */
+	public void searchRegClick(){
+		SearchCar sc = new SearchCar();	
+		ResultSet rs=null;
+		//Try to get result set
+		try {
+			rs = sc.searchReg(textReg.getText());
+		} catch (SQLException e1) {
+			JOptionPane.showMessageDialog(frame,"Unable to get result set");
+		}
+		//setup for table
+		table.setModel(new DefaultTableModel());
+		DefaultTableModel m = (DefaultTableModel) table.getModel();
+		m.getDataVector().removeAllElements();
+		m.addColumn("Make");
+	    m.addColumn("Model");
+	    m.addColumn("Reg");
+	    m.addColumn("Colour");
+	    m.addColumn("Price");
+	    m.addColumn("Description");
+	    JTable table = new JTable(m);
+	    //Addd data to table
+		try {
+			while(rs.next())
+			{ 			
+			     make = rs.getString("make");
+				 model = rs.getString("model");
+				 reg = rs.getString("reg");
+				 colour = rs.getString("colour");
+				 price = rs.getString("price");
+				 description = rs.getString("description");
+	
+			    // This will add row from the DB as the last row in the JTable. 
+			    m.insertRow(table.getRowCount(), new Object[] {make, model,reg,colour,price,description});
+			  
+			}
+		} catch (SQLException e) {
+			JOptionPane.showMessageDialog(frame,"Unable to populate table");
+		}
+	
+	}//end SearchRegClick
+	
 }//endSearchForm

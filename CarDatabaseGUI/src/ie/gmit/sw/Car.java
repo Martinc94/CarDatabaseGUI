@@ -93,53 +93,42 @@ public class Car {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-
-	@Override
-	public String toString() {
-		return "Car [id=" + id + ", reg=" + reg + ", make=" + make + ", model=" + model + ", colour=" + colour
-				+ ", price=" + price + ", description=" + description +"]";
-	}
 	
+	//adds car into database
 	public void addToDB(String make,String model,String reg,String colour,String price,String description) throws SQLException {
 		
 		Driver d = new Driver();
 		Connection conn;
 		
-			conn = d.getConn();
+		conn = d.getConn();
 			
-			Statement stmt = conn.createStatement();	
+		Statement stmt = conn.createStatement();	
 			
-			String sql = "Insert into car (id,reg,make,model,colour,price,description) "+						
+		String sql = "Insert into car (id,reg,make,model,colour,price,description) "+						
 					"values ('"+id+ "','"+ reg+"','"+ make+"','"+ model+"','"+ colour+"','"+ price+"','"+ description+"')";
 			
-			stmt.executeUpdate(sql);	
-			
-		
-		
+		stmt.executeUpdate(sql);	
 
-	}
+	}//end AddToDB
 	
 	public void UpdateToDB() throws SQLException {
 		Driver d = new Driver();
 		Connection conn;
 		
-			conn = d.getConn();
+		conn = d.getConn();
 			
-			Statement stmt = conn.createStatement();	
+		Statement stmt = conn.createStatement();	
 			
-			//update Command
-			String sql = "UPDATE car SET  make  =\""+make +"\","
-										+"model =\""+model+"\","
-										+"colour =\""+colour+"\","
-										+"price =\""+price+"\","
-										+"description =\""+description+"\""
-										+ "WHERE car.id =\""+id+"\"";
-		
-					
+		//update Command
+		String sql = "UPDATE car SET  make  =\""+make +"\","
+									+"model =\""+model+"\","
+									+"colour =\""+colour+"\","
+									+"price =\""+price+"\","
+									+"description =\""+description+"\""
+									+ "WHERE car.id =\""+id+"\"";		
 			
 			stmt.executeUpdate(sql);	
-			
-	}
+	}//end UpdateToDB
 	
 	public boolean DeleteFromDB() {
 		boolean added=true;
@@ -152,9 +141,7 @@ public class Car {
 			
 			//Delete Command
 			String sql = "DELETE FROM car WHERE id =\""+id+"\"";
-		
-					
-			
+	
 			stmt.executeUpdate(sql);	
 			
 		} catch (SQLException e) {
@@ -163,6 +150,8 @@ public class Car {
 		}
 		return added;
 
-	}
+	}//end deleteFromDB
 
-}
+}//end Car
+
+	

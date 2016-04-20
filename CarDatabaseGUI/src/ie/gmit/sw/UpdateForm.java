@@ -48,7 +48,7 @@ public class UpdateForm {
 	private boolean validDouble;
 
 	/**
-	 * Launch the application.
+	 * Launch the Form.
 	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -64,7 +64,7 @@ public class UpdateForm {
 	}
 
 	/**
-	 * Create the application.
+	 * Create the Form.
 	 */
 	public UpdateForm() {
 		initialize();
@@ -325,11 +325,11 @@ public void searchRegClick(){
 }
 
 private boolean validateCar(String make,String model,String colour,String price,String description){
+	//Validation Checks if one is invalid Car isnt Valid
 	boolean valid=true;
 	if(make.length()==0){
 		lblErrorMake.setText("Invalid Make");
 		valid=false;
-		//exit
 	}
 	else{
 		lblErrorMake.setText("");
@@ -339,7 +339,6 @@ private boolean validateCar(String make,String model,String colour,String price,
 	if(model.length()==0){
 		lblErrorModel.setText("Invalid Model");
 		valid=false;
-		//exit
 	}
 	else{
 		lblErrorModel.setText("");
@@ -348,9 +347,7 @@ private boolean validateCar(String make,String model,String colour,String price,
 	
 	if(colour.length()==0){
 		lblErrorColour.setText("Invalid Colour");
-		valid=false;
-		
-		//exit
+		valid=false;	
 	}
 	else{
 		lblErrorColour.setText("");
@@ -364,7 +361,6 @@ private boolean validateCar(String make,String model,String colour,String price,
 	if(validDouble==false){
 		lblErrorPrice.setText("Invalid Price");
 		valid=false;
-		//exit
 	}
 	else{
 		lblErrorPrice.setText("");
@@ -373,7 +369,6 @@ private boolean validateCar(String make,String model,String colour,String price,
 	if(description.length()==0){
 		lblErrorDesc.setText("Invalid Description");
 		valid=false;
-		//exit
 	}
 	else{
 		lblErrorDesc.setText("");
@@ -388,11 +383,9 @@ private boolean convertToDouble(String price) {
 		@SuppressWarnings("unused")
 		double doub = Double.parseDouble(price);
 	} catch (NumberFormatException e) {
-		//e.printStackTrace();
-		//System.out.println("Error converting");
 		validDouble=false;
 	}
 	return validDouble;
 	
 }
-}//endSearchForm
+}//endUpdateForm

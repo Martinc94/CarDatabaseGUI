@@ -28,12 +28,10 @@ public class ListCars {
 				
 			
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			//cannot connect to database
 		}
-	
-	
-	}//list
+		
+	}//end list
 	
 	public ResultSet getAllCars() throws SQLException{
 		Driver d = new Driver();
@@ -47,6 +45,6 @@ public class ListCars {
 			
 		return myResultSet;
 			
-	}
+	}//end getAllCars
 
-}
+}//end listCar

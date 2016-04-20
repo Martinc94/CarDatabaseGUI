@@ -32,7 +32,7 @@ public class ListForm {
 	private JTable resultsTable;
 
 	/**
-	 * Launch the application.
+	 * Launch the Form.
 	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -49,7 +49,7 @@ public class ListForm {
 	}
 
 	/**
-	 * Create the application.
+	 * Create the Form.
 	 */
 	public ListForm() {
 		initialize();
@@ -106,10 +106,10 @@ public class ListForm {
 	private void fillTable(){
 		ListCars lc = new ListCars();	
 		ResultSet rs;
+		//try to get result set
 		try {
 				rs = lc.getAllCars();		
 				DefaultTableModel m = (DefaultTableModel) resultsTable.getModel();
-				
 				rs = lc.getAllCars();
 				m.addColumn("Make");
 		        m.addColumn("Model");
@@ -118,6 +118,7 @@ public class ListForm {
 		        m.addColumn("Price");
 		        m.addColumn("Description");
 		        JTable table = new JTable(m);
+		        //try to add data to table
 				while(rs.next())
 				{ 			
 				     make = rs.getString("make");
@@ -135,4 +136,4 @@ public class ListForm {
 				JOptionPane.showMessageDialog(frame,"Unable to get information from database");	
 			}
 	}//end fillTable
-}
+}//end Listform

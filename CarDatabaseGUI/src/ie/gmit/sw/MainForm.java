@@ -15,7 +15,7 @@ public class MainForm {
 	private JFrame frame;
 
 	/**
-	 * Launch the application.
+	 * Launch the Main page
 	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -31,7 +31,7 @@ public class MainForm {
 	}
 
 	/**
-	 * Create the application.
+	 * Create the Form
 	 */
 	public MainForm() {
 		initialize();
@@ -57,6 +57,7 @@ public class MainForm {
 		lblCarManagementSoftware.setBackground(Color.WHITE);
 		frame.getContentPane().add(lblCarManagementSoftware);
 		
+		//Button for search form
 		JButton btnSearch = new JButton("Search for Car");
 		btnSearch.setBounds(236, 261, 126, 23);
 		btnSearch.addActionListener(new ActionListener() {
@@ -66,6 +67,7 @@ public class MainForm {
 			}
 		});
 		
+		//Button for Add form
 		JButton btnAdd = new JButton("Add Car");
 		btnAdd.setBounds(91, 261, 87, 23);
 		btnAdd.addActionListener(new ActionListener() {
@@ -77,6 +79,7 @@ public class MainForm {
 		frame.getContentPane().add(btnAdd);
 		frame.getContentPane().add(btnSearch);
 		
+		//Button for List form
 		JButton btnListAllCars = new JButton("List All Cars");
 		btnListAllCars.setBounds(553, 261, 126, 23);
 		btnListAllCars.addActionListener(new ActionListener() {
@@ -87,6 +90,7 @@ public class MainForm {
 		});
 		frame.getContentPane().add(btnListAllCars);
 		
+		//Button for Update form
 		JButton btnUpdateCar = new JButton("Update Car");
 		btnUpdateCar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {

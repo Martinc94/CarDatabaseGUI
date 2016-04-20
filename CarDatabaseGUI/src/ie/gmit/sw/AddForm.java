@@ -52,7 +52,7 @@ public class AddForm {
 	private JTextField textRegNum;
 
 	/**
-	 * Launch the application.
+	 * Launch the Form.
 	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -69,7 +69,7 @@ public class AddForm {
 	}
 
 	/**
-	 * Create the application.
+	 * Create the form.
 	 */
 	public AddForm() {
 		initialize();
@@ -279,6 +279,7 @@ public class AddForm {
 		gbc_textDesc.gridy = 7;
 		frame.getContentPane().add(textDesc, gbc_textDesc);
 		
+		//Button to Submit
 		btnSubmit = new JButton("Submit");
 		btnSubmit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -330,13 +331,14 @@ public class AddForm {
 		boolean validCar;
 		boolean validReg;
 		
+		//Validation Checks
 		reg=concatReg(regYr, regCounty, regNum);			
 		validReg=ValidateReg(regYr, regCounty, regNum);
 		validCar =validateCar( make, model, reg, colour, price, description);
 		
 		if(validCar&validReg)
 			valid=true;
-				
+		//if all valid create new car object	
 		if (valid == true){
 			btnSubmit.setEnabled(false);
 			double Price2 = Double.parseDouble(price);
@@ -344,7 +346,7 @@ public class AddForm {
 			//add to database
 			Car c =new Car(make, model, reg, colour, Price2, description);
 			
-			
+			//add Car to database
 			 try {
 				c.addToDB(make, model, reg, colour, price, description);
 				lblMessage.setText("Car Added Sucessful");
@@ -355,7 +357,7 @@ public class AddForm {
 				btnSubmit.setEnabled(true);
 			}
 			 
-		}
+		}//end if valid=true
 		
 	}//end addCar
 	
@@ -364,7 +366,6 @@ public class AddForm {
 		if(make.length()==0){
 			lblErrorMake.setText("Please enter Make");
 			valid=false;
-			//exit
 		}
 		else{
 			lblErrorMake.setText("");
@@ -439,11 +440,11 @@ public class AddForm {
 				rs = lc.getAllCars();
 				while(rs.next())
 				{ 				 
-					 reg = rs.getString("reg");
-					 //reg in database
-					 if(reg.equalsIgnoreCase(regis)){
+					reg = rs.getString("reg");
+					//reg in database
+					if(reg.equalsIgnoreCase(regis)){
 						 unique=false;
-					 }
+					}
 				}
 				
 			} catch (SQLException e) {
@@ -452,7 +453,7 @@ public class AddForm {
 		
 		
 		return unique;	
-	}
+	}//end uniqueReg
 
 	private boolean convertToDouble(String price) {
 		boolean validDouble=true;
@@ -464,7 +465,7 @@ public class AddForm {
 		}
 		return validDouble;
 		
-	}
+	}//end convertToDouble
 
 	private boolean ValidCounty(String str){
 		boolean validCo=false;
@@ -475,7 +476,7 @@ public class AddForm {
 			}
 		return validCo;
 		
-	}
+	}//end validCounty
 
 	private boolean convertToInt(String str){
 		boolean validInt=true;
@@ -483,21 +484,18 @@ public class AddForm {
 			@SuppressWarnings("unused")
 			int i = Integer.parseInt(str);
 		} catch (NumberFormatException e) {
-			//e.printStackTrace();
 			System.out.println("Error converting");
 			validInt=false;
 		}
-		//System.out.println(validInt);
 		return validInt;
 		
-	}
+	}//eng convertToInt
 	
 	private String concatReg(String yr,String co,String num) {
 		String reg="";
-		reg = yr+"-"+co+"-"+num;
-		//System.out.println(reg);	
+		reg = yr+"-"+co+"-"+num;	
 		return reg;
-	}
+	}//end concatReg
 	
 	private Boolean ValidateReg(String yr,String co,String num) {
 		Boolean validReg=true;
@@ -529,7 +527,7 @@ public class AddForm {
 			lblErrorReg.setText("");
 		}
 		return validReg;	
-	}
+	}//end ValidateReg
 
 	private Boolean Enteredreg(){
 		boolean val=true;
@@ -544,6 +542,6 @@ public class AddForm {
 		
 		return val;
 		
-	}
+	}//end EnteredReg
 	
-}
+}//end AddForm
