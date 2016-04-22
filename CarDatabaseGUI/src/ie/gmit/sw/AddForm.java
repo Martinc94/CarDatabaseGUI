@@ -419,7 +419,6 @@ public class AddForm {
 		Boolean valReg = ValidateReg(textRegYear.getText(), textRegCounty.getText(), textRegNum.getText());
 		if(valReg==false){
 			valid=false;
-			lblErrorReg.setText("Please enter Registration");
 		}
 		else{
 			lblErrorReg.setText("");
@@ -443,6 +442,7 @@ public class AddForm {
 					 //reg in database
 					 if(reg.equalsIgnoreCase(regis)){
 						 unique=false;
+						 lblErrorReg.setText("Registration already in use");
 					 }
 				}
 				
@@ -473,6 +473,8 @@ public class AddForm {
 				// str consists entirely of letters
 				validCo=true;
 			}
+			else
+				lblErrorReg.setText("Please enter Valid County");
 		return validCo;
 		
 	}
@@ -502,25 +504,23 @@ public class AddForm {
 	private Boolean ValidateReg(String yr,String co,String num) {
 		Boolean validReg=true;
 		Boolean uniReg=true;
+		uniReg=UniqueReg(yr+"-"+co+"-"+num);
 		if(yr.length()>3||yr.length()==0||convertToInt(yr)==false){
 			 validReg=false;
+			 lblErrorReg.setText("Please enter Valid Year");
 		}
 		
-		if(co.length()>2||co.length()==0||ValidCounty(co)==false){
+		else if(co.length()>2||co.length()==0||ValidCounty(co)==false){
 			 validReg=false;
+			 lblErrorReg.setText("Please enter Valid County");
 		}
 		
-		if(num.length()==0||convertToInt(num)==false){
+		else if(num.length()==0||convertToInt(num)==false){
 			 validReg=false;
+			 lblErrorReg.setText("Please enter Valid Number");
 		}
 		
-		if(validReg==false){
-			lblErrorReg.setText("Please enter Vaild Registration");
-		}
-		
-		uniReg=UniqueReg(yr+"-"+co+"-"+num);
-		
-		if(uniReg==false){
+		else if(uniReg==false){
 			lblErrorReg.setText("Reg already in use");
 			validReg=false;
 		}
