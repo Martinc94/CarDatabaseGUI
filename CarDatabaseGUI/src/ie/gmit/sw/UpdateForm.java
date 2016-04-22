@@ -277,7 +277,6 @@ public class UpdateForm {
 		 
 		 btnUpdate.setEnabled(false);
 		 btnDelete.setEnabled(false);
-		
 	}
 
 	public void open() {
