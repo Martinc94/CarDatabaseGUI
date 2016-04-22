@@ -138,7 +138,6 @@ public class UpdateForm {
 						JOptionPane.showMessageDialog(frame,"Unable to Update Car");
 					}
 					
-					
 				}
 			}
 		});
