@@ -333,7 +333,6 @@ private boolean validateCar(String make,String model,String colour,String price,
 		lblErrorMake.setText("");
 	}
 	
-	
 	if(model.length()==0){
 		lblErrorModel.setText("Invalid Model");
 		valid=false;
